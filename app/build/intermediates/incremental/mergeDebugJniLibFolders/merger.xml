@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="C:\Users\mj\Desktop\community-sdk-master\examples\Android\FFTSample\app\src\main\jniLibs"><file name="armeabi/libbedk.so" path="C:\Users\mj\Desktop\community-sdk-master\examples\Android\FFTSample\app\src\main\jniLibs\armeabi\libbedk.so"/></source></dataSet><dataSet config="debug"><source path="C:\Users\mj\Desktop\community-sdk-master\examples\Android\FFTSample\app\src\debug\jniLibs"/></dataSet></merger>
