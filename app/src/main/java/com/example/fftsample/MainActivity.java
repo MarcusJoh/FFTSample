@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import com.example.fftsample.R;
 
@@ -151,12 +154,17 @@ public class MainActivity extends Activity {
 				case 2:
 					for(int i=0; i < Channel_list.length; i++)
 					{
-						double[] data = IEdk.IEE_GetAverageBandPowers(Channel_list[i]);
+                        DateFormat df = new SimpleDateFormat("HH:mm");
+                        String time = df.format(Calendar.getInstance().getTime());
+                        double[] data = IEdk.IEE_GetAverageBandPowers(Channel_list[i]);
+
 						if(data.length == 5){
 							try {
-								motion_writer.write(Name_Channel[i] + ",");
+								motion_writer.write("<eeg channel=\""+Name_Channel[i] +"\" time=\""+time+ "\" dataset=\"");
+
 								for(int j=0; j < data.length;j++)
 									addData(data[j]);
+                                motion_writer.write("\" />");
 								motion_writer.newLine();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -174,7 +182,8 @@ public class MainActivity extends Activity {
 
 	private void setDataFile() {
 		try {
-			String eeg_header = "Channel , Theta ,Alpha ,Low beta ,High beta , Gamma ";
+
+			String eeg_header = "<headset>";
 			File root = Environment.getExternalStorageDirectory();
 			String file_path = root.getAbsolutePath()+ "/FFTSample/";
 			File folder=new File(file_path);
@@ -182,9 +191,9 @@ public class MainActivity extends Activity {
 			{
 				folder.mkdirs();
 			}
-			motion_writer = new BufferedWriter(new FileWriter(file_path+"bandpowerValue.txt"));
+			motion_writer = new BufferedWriter(new FileWriter(file_path+"bandpowerValue.xml"));
 			motion_writer.write(eeg_header);
-            Log.e("patyh",file_path);
+            Log.e("patyh",file_path+"");
 
 
 			motion_writer.newLine();
@@ -194,6 +203,8 @@ public class MainActivity extends Activity {
 	}
 	private void StopWriteFile(){
 		try {
+            String eeg_ender = "</headset>";
+            motion_writer.write(eeg_ender);
 			motion_writer.flush();
 			motion_writer.close();
 		} catch (Exception e) {
